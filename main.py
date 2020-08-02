@@ -14,10 +14,14 @@ class Reaction:
 
 
 combustion_reactions = [
+
+    # Train
     Reaction("2H2+O2", "2H2O"),
     Reaction("C3H8+5O2", "3CO2+4H2O"),
     Reaction("CH4+2O2", "CO2+2H2O"),  # combustion of methane
     Reaction("C2H5OH+3O2", "2CO2+3H2O"),
+
+    # Validation
     Reaction("C5H12+8O2", "5CO2+6H2O"),
     Reaction("2C2H6+7O2", "4CO2+6H2O"),  # combustion of ethane
     Reaction("2C4H10+13O2", "8CO2+10H2O"),  # combustion of butane
@@ -33,15 +37,15 @@ def main():
     set_openai_key(openai_key)
     gpt = GPT(max_tokens=10)
 
-    train, test = combustion_reactions[:4], combustion_reactions[4:]
+    train, validation = combustion_reactions[:4], combustion_reactions[4:]
 
-    for ex in train:
-        gpt.add_example(Example(ex.lhs, ex.rhs))
+    for example in train:
+        gpt.add_example(Example(example.lhs, example.rhs))
 
-    for idx, ex in enumerate(test):
+    for idx, example in enumerate(validation):
         print(idx + 1)
-        print(f"GPT prediction: {gpt.get_top_reply(ex.lhs)}")
-        print(f"Actual: {ex.rhs}")
+        print(f"GPT prediction: {gpt.get_top_reply(example.lhs)}")
+        print(f"Actual: {example.rhs}")
         print("==========================")
 
     config = UIConfig(
