@@ -26,8 +26,7 @@ combustion_reactions = [
     Reaction("2C2H6+7O2", "4CO2+6H2O"),  # combustion of ethane
     Reaction("2C4H10+13O2", "8CO2+10H2O"),  # combustion of butane
     Reaction("2C3H8+7O2", "6CO2+8H2O"),
-    Reaction("CH10H4+12O2", "10CO2+4H2O"),
-    Reaction("C10H8+12O2", "10CO2+4H2O"),  # burning of naphthalene
+    Reaction("CH10H4+12O2", "10CO2+4H2O"),  # burning of naphthalene
     Reaction("2C3H8+7O2", "6CO2+8H2O"),
 ]
 
@@ -35,7 +34,7 @@ combustion_reactions = [
 def main():
     openai_key = os.getenv("OPENAI_KEY")
     set_openai_key(openai_key)
-    gpt = GPT(max_tokens=10)
+    gpt = GPT(temperature=0.2, max_tokens=10)
 
     train, validation = combustion_reactions[:4], combustion_reactions[4:]
 
@@ -48,11 +47,11 @@ def main():
         print(f"Actual: {example.rhs}")
         print("==========================")
 
-    config = UIConfig(
-        description="GPT-3 Alchemy", button_text="Predict Reaction", placeholder=""
-    )
-
-    demo_web_app(gpt, openai_key, config)
+    # config = UIConfig(
+    #     description="GPT-3 Alchemy", button_text="Predict Reaction", placeholder=""
+    # )
+    #
+    # demo_web_app(gpt, openai_key, config)
 
 
 if __name__ == "__main__":
